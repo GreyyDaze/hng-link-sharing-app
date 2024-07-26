@@ -1,113 +1,175 @@
+"use client";
+import React from "react";
+import { signIn } from "next-auth/react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { toast, Toaster } from "react-hot-toast";
+import AuthHeader from "@/components/common/AuthHeader";
+import CustomButton from "@/components/common/Button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import Image from "next/image";
+import Link from "next/link";
 
-export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  );
+interface IFormInput {
+  email: string;
+  password: string;
 }
+
+const Login: React.FC = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IFormInput>();
+  const router = useRouter();
+
+  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    console.log(data);
+    try {
+      const result = await signIn("credentials", {
+        ...data,
+        redirect: false,
+      });
+
+      if (result?.error) {
+        toast.error(result.error); 
+      } else {
+        toast.success("Login successful!");
+        router.push("/links"); 
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      toast.error("An error occurred during login. Please try again.");
+    }
+  };
+
+  return (
+    <div className="block md:flex md:justify-center md:items-center md:h-full md:w-full ">
+      <div className="flex flex-col bg-white md:bg-inherit pt-9 pb-20 md:pt-30">
+        <AuthHeader />
+        <Card className="md:mt-10 mt-9 bg-white md:rounded-xl p-5 sm:p-8 md:p-10 md:w-[476px] max-w-full md:border border-none">
+          <CardHeader className="p-0 pb-10 ">
+            <CardTitle className="text-2xl md:text-heading-m font-bold text-gray-dark">
+              Login
+            </CardTitle>
+            <CardDescription
+              className="text-body-m text-gray-default"
+              style={{ marginTop: "0.7rem" }}
+            >
+              Add your details below to get back into the app
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="p-0">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="flex flex-col"
+              method="Post"
+            >
+              <div className="flex flex-col">
+                <div className="text-body-s text-gray-dark mb-1">
+                  Email address
+                </div>
+                <div
+                  className={`flex items-center gap-1 px-4 py-2 text-body-m bg-white rounded-lg border border-solid ${
+                    errors.email ? "border-error" : "border-gray-light"
+                  } focus-within:border-primary-default focus-within:shadow-[0px_0px_32px_0px_rgba(99,60,255,0.25)]`}
+                >
+                  <div className="flex gap-3">
+                    <Image
+                      loading="lazy"
+                      src="/icons/envelope.svg"
+                      className="shrink-0 my-auto w-4 aspect-square"
+                      alt="Email Icon"
+                      width={16}
+                      height={16}
+                    />
+                    <Input
+                      type="email"
+                      placeholder="e.g. alex@email.com"
+                      className="border-none focus-visible:ring-transparent focus-visible:ring-0 focus-visible:ring-offset-transparent p-0"
+                      {...register("email", {
+                        required: "Email is required",
+                        pattern: {
+                          value: /^\S+@\S+$/i,
+                          message: "Invalid email address",
+                        },
+                      })}
+                    />
+                  </div>
+                  {errors.email && (
+                    <span className="text-error text-body-s ml-1">
+                      {errors.email.message}
+                    </span>
+                  )}
+                </div>
+              </div>
+              <div className="flex flex-col mt-6">
+                <div className="text-body-s text-gray-dark mb-1">Password</div>
+                <div
+                  className={`flex items-center gap-1 px-4 py-2 text-body-m bg-white rounded-lg border border-solid ${
+                    errors.password ? "border-error" : "border-gray-light"
+                  } focus-within:border-primary-default focus-within:shadow-[0px_0px_32px_0px_rgba(99,60,255,0.25)]`}
+                >
+                  <div className="flex gap-3">
+                    <Image
+                      loading="lazy"
+                      src="/icons/lock.svg"
+                      className="shrink-0 my-auto w-4 aspect-square"
+                      alt="Password Icon"
+                      width={16}
+                      height={16}
+                    />
+                    <Input
+                      type="password"
+                      placeholder="Enter your password"
+                      className="border-none focus-visible:ring-transparent focus-visible:ring-0 focus-visible:ring-offset-transparent "
+                      {...register("password", {
+                        required: "Password is required",
+                        minLength: {
+                          value: 8,
+                          message: "Password must be at least 8 characters",
+                        },
+                      })}
+                    />
+                  </div>
+                  {errors.password && (
+                    <span className="text-error text-body-s ml-1">
+                      {errors.password.message}
+                    </span>
+                  )}
+                </div>
+              </div>
+              <CardFooter className="flex flex-col items-center p-0 mt-6 ">
+                <CustomButton type="submit" className="font-normal w-full">
+                  Login
+                </CustomButton>
+                <div className="mt-6 text-center flex flex-col justify-center md:flex-row">
+                  <span className="text-body-m text-gray-default mr-[.1rem]">
+                    Don’t have an account?
+                  </span>
+                  <Link
+                    href="/register"
+                    className="text-primary-default cursor-pointer"
+                  >
+                    Create account
+                  </Link>
+                </div>
+              </CardFooter>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+      <Toaster />
+    </div>
+  );
+};
+
+export default Login;
