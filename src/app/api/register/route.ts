@@ -1,7 +1,7 @@
-import { NextResponse, NextRequest } from 'next/server';
-import bcrypt from 'bcryptjs';
-import dbConnect from '@/utils/dbConnect';
-import User, { IUser } from '@/models/User';
+import { NextResponse, NextRequest } from "next/server";
+import bcrypt from "bcryptjs";
+import dbConnect from "@/utils/dbConnect";
+import User, { IUser } from "@/models/User";
 
 interface RegisterRequestBody {
   email: string;
@@ -29,7 +29,6 @@ export async function POST(request: NextRequest) {
       password: hashedPassword,
     } as IUser);
 
-
     await newUser.save();
 
     return NextResponse.json(
@@ -51,16 +50,3 @@ export async function POST(request: NextRequest) {
     }
   }
 }
-
-export async function handler(request: Request) {
-  if (request.method === "POST") {
-    return POST(request as NextRequest);
-  } else {
-    return NextResponse.json(
-      { message: "Method not allowed" },
-      { status: 405 }
-    );
-  }
-}
-
-
